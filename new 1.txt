@@ -1,0 +1,260 @@
+/* 
+Problem Statement: 
+Consider the following description\requirement given by a Car Rental agency- 
+“Our company owns several Cars in various cities available for rent on a daily basis. 
+Every Car has a vehicle number, model, seating capacity, rent per day etc. 
+People make reservations/booking for these cars. Booking status of these cars include the customer details (name, Ph No.), 
+issue date (the date on which car is given on rent) and return date (the date on which customer returns the car) of the car.” 
+
+
+You have to make a basic system having the following features – 
+• Add new cars 
+• Book a specific car based on its availability. A car can have multiple bookings
+• Show the cars that are available to book on a date, time, seating capacity or other filters
+• Using Car Model (only) show the details of a particular car and its currently active booking
+
+
+Update/Delete a Car from the system and ensure that the car is not already booked. 
+Explanation of this point: Build endpoints to update and delete a rental car object 
+from the database while ensuring the condition that update or delete operations are not 
+allowed in case the status of the car is 'booked'
+
+*/
+
+
+
+
+
+
+CREATE TABLE IF NOT EXISTS `admin` (
+  `id` int(11) NOT NULL,
+  `UserName` varchar(100) NOT NULL,
+  `Password` varchar(100) NOT NULL,
+  `updationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+
+INSERT INTO `admin` (`id`, `UserName`, `Password`, `updationDate`) VALUES
+(1, 'admin', '5555gggg', '2020-05-2 12:20:34');
+
+
+CREATE TABLE IF NOT EXISTS `tblbooking` (
+  `id` int(11) NOT NULL,
+  `userEmail` varchar(100) DEFAULT NULL,
+  `VehicleId` int(11) DEFAULT NULL,
+  `FromDate` varchar(20) DEFAULT NULL,
+  `ToDate` varchar(20) DEFAULT NULL,
+  `message` varchar(255) DEFAULT NULL,
+  `Status` int(11) DEFAULT NULL,
+  `PostingDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+
+INSERT INTO `tblbooking` (`id`, `userEmail`, `VehicleId`, `FromDate`, `ToDate`, `message`, `Status`, `PostingDate`) VALUES
+(1, 'abc@gmail.com', 2, '22/04/2020', '25/04/2020', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco', 1, '2020-04-19 20:15:43'),
+(2, 'abc@gmail.com', 3, '30/04/2020', '02/05/2020', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco', 2, '2020-04-26 20:15:43'),
+(3, 'abc@gmail.com', 4, '02/04/2020', '07/05/2020', 'Lorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ', 0, '2020-04-26 21:10:06');
+
+
+
+CREATE TABLE IF NOT EXISTS `tblbrands` (
+  `id` int(11) NOT NULL,
+  `BrandName` varchar(120) NOT NULL,
+  `CreationDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+
+
+INSERT INTO `tblbrands` (`id`, `BrandName`, `CreationDate`, `UpdationDate`) VALUES
+(1, 'Maruti', '2020-03-18 16:24:34', '2020-04-19 06:42:23'),
+(2, 'BMW', '2020-03-18 16:24:50', NULL),
+(3, 'Audi', '2020-03-18 16:25:03', NULL),
+(4, 'Nissan', '2020-03-18 16:25:13', NULL),
+(5, 'Toyota', '2020-03-18 16:25:24', NULL),
+(7, 'Marutiu', '2020-03-19 06:22:13', NULL);
+
+
+
+CREATE TABLE IF NOT EXISTS `tblcontactusinfo` (
+  `id` int(11) NOT NULL,
+  `Address` tinytext,
+  `EmailId` varchar(255) DEFAULT NULL,
+  `ContactNo` char(11) DEFAULT NULL
+) ENGINE=InnoDB;
+
+
+
+INSERT INTO `tblcontactusinfo` (`id`, `Address`, `EmailId`, `ContactNo`) VALUES
+(1, 'Test Demo test demo ', 'abc@abc.com', '8585233222');
+
+
+
+CREATE TABLE IF NOT EXISTS `tblcontactusquery` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `EmailId` varchar(120) DEFAULT NULL,
+  `ContactNumber` char(11) DEFAULT NULL,
+  `Message` longtext,
+  `PostingDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` int(11) DEFAULT NULL
+) ENGINE=InnoDB ;
+
+
+INSERT INTO `tblcontactusquery` (`id`, `name`, `EmailId`, `ContactNumber`, `Message`, `PostingDate`, `status`) VALUES
+(1, 'Anuj Kumar', 'webhostingamigo@gmail.com', '2147483647', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum', '2017-06-18 10:03:07', 1);
+
+
+
+CREATE TABLE IF NOT EXISTS `tblpages` (
+  `id` int(11) NOT NULL,
+  `PageName` varchar(255) DEFAULT NULL,
+  `type` varchar(255) NOT NULL DEFAULT '',
+  `detail` longtext NOT NULL
+) ENGINE=InnoDB;
+
+
+
+CREATE TABLE IF NOT EXISTS `tblsubscribers` (
+  `id` int(11) NOT NULL,
+  `SubscriberEmail` varchar(120) DEFAULT NULL,
+  `PostingDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+
+
+INSERT INTO `tblsubscribers` (`id`, `SubscriberEmail`, `PostingDate`) VALUES
+(1, 'rahul.lpu1@gmail.com', '2020-04-22 16:35:32');
+
+
+
+CREATE TABLE IF NOT EXISTS `tbltestimonial` (
+  `id` int(11) NOT NULL,
+  `UserEmail` varchar(100) NOT NULL,
+  `Testimonial` mediumtext NOT NULL,
+  `PostingDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` int(11) DEFAULT NULL
+) ENGINE=InnoDB;
+
+
+
+INSERT INTO `tbltestimonial` (`id`, `UserEmail`, `Testimonial`, `PostingDate`, `status`) VALUES
+(1, 'test@gmail.com', 'Test Test', '2020-03-18 07:44:31', 1),
+(2, 'test@gmail.com', '\nLorem ipsum dolor sit amet, consectetuer adipiscing elit. Nam nibh. Nunc varius facilis', '2020-04-18 07:46:05', 1);
+
+
+
+CREATE TABLE IF NOT EXISTS `tblusers` (
+  `id` int(11) NOT NULL,
+  `FullName` varchar(120) DEFAULT NULL,
+  `EmailId` varchar(100) DEFAULT NULL,
+  `Password` varchar(100) DEFAULT NULL,
+  `ContactNo` char(11) DEFAULT NULL,
+  `dob` varchar(100) DEFAULT NULL,
+  `Address` varchar(255) DEFAULT NULL,
+  `City` varchar(100) DEFAULT NULL,
+  `Country` varchar(100) DEFAULT NULL,
+  `RegDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+
+INSERT INTO `tblusers` (`id`, `FullName`, `EmailId`, `Password`, `ContactNo`, `dob`, `Address`, `City`, `Country`, `RegDate`, `UpdationDate`) VALUES
+(1, 'Rahul Kumar', 'demo@gmail.com', 'f5733251', '2147483647', NULL, NULL, NULL, NULL, '2020-04-17 19:59:27', '2020-04-26 21:02:58'),
+(2, 'RK', 'Rahul@gmail.com', 'f5733251', '8285703354', NULL, NULL, NULL, NULL, '2020-04-17 20:00:49', '2020-04-26 21:03:09'),
+(3, 'Rahul Kumar', 'webhostingamigo@gmail.com', 'f79821', '09999857868', '03/02/1990', 'Mumbai', 'Mumbai', 'Mumbai', '2020-06-17 20:01:43', '2020-06-17 21:07:41'),
+(4, 'Rahul Kumar', 'abc@gmail.com', '571b4', '9999857868', '', 'Mumbai', 'Mumbai', 'Mumbai', '2017-06-17 20:03:36', '2020-06-26 19:18:14');
+
+
+CREATE TABLE IF NOT EXISTS `tblvehicles` (
+  `id` int(11) NOT NULL,
+  `VehiclesTitle` varchar(150) DEFAULT NULL,
+  `VehiclesBrand` int(11) DEFAULT NULL,
+  `VehiclesOverview` longtext,
+  `PricePerDay` int(11) DEFAULT NULL,
+  `FuelType` varchar(100) DEFAULT NULL,
+  `ModelYear` int(6) DEFAULT NULL,
+  `SeatingCapacity` int(11) DEFAULT NULL,
+  `Vimage1` varchar(120) DEFAULT NULL,
+  `Vimage2` varchar(120) DEFAULT NULL,
+  `Vimage3` varchar(120) DEFAULT NULL,
+  `Vimage4` varchar(120) DEFAULT NULL,
+  `Vimage5` varchar(120) DEFAULT NULL,
+  `AirConditioner` int(11) DEFAULT NULL,
+  `PowerDoorLocks` int(11) DEFAULT NULL,
+  `AntiLockBrakingSystem` int(11) DEFAULT NULL,
+  `BrakeAssist` int(11) DEFAULT NULL,
+  `PowerSteering` int(11) DEFAULT NULL,
+  `DriverAirbag` int(11) DEFAULT NULL,
+  `PassengerAirbag` int(11) DEFAULT NULL,
+  `PowerWindows` int(11) DEFAULT NULL,
+  `CDPlayer` int(11) DEFAULT NULL,
+  `CentralLocking` int(11) DEFAULT NULL,
+  `CrashSensor` int(11) DEFAULT NULL,
+  `LeatherSeats` int(11) DEFAULT NULL,
+  `RegDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `tblbooking`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `tblbrands`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `tblcontactusinfo`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `tblcontactusquery`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `tblpages`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `tblsubscribers`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `tbltestimonial`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `tblusers`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `tblvehicles`
+  ADD PRIMARY KEY (`id`);
+
+
+ALTER TABLE `admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+
+ALTER TABLE `tblbooking`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+
+ALTER TABLE `tblbrands`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+
+ALTER TABLE `tblcontactusinfo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+
+ALTER TABLE `tblcontactusquery`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+ALTER TABLE `tblpages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
+
+ALTER TABLE `tblsubscribers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+
+ALTER TABLE `tbltestimonial`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+
+ALTER TABLE `tblusers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+INCREMENT for table `tblvehicles`
+
+ALTER TABLE `tblvehicles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+
